@@ -2,89 +2,79 @@
 
 ## Project Overview
 
-This project explores the use of machine learning models for loan approval decisions, with a specific focus on **evaluating and mitigating bias**. We aim to ensure that the loan approval process is fair and does not discriminate against any group based on sensitive attributes such as gender.
+This project applies machine learning techniques to predict loan approval decisions, with a primary focus on **evaluating and mitigating bias**. The goal is to ensure fairness in loan approvals, particularly across different demographic groups such as gender.
 
-The project applies **Logistic Regression** for loan approval predictions, evaluates the model's performance, and then applies **SMOTE (Synthetic Minority Over-sampling Technique)** to mitigate any bias in the dataset. Fairness metrics such as **True Positive Rate (TPR)** are calculated for different groups to ensure the model does not exhibit unfair bias against any specific demographic.
+The project uses a **Logistic Regression** model for predictions and evaluates both model performance and fairness. It incorporates **SMOTE (Synthetic Minority Over-sampling Technique)** to address class imbalance and uses fairness metrics like **True Positive Rate (TPR)** to assess equity across groups.
+
+---
 
 ## Dataset
 
-The dataset used for this project is a **loan approval dataset** with the following columns:
+The dataset is from [Kaggle: Loan Approval Prediction](https://www.kaggle.com/code/kanuriviveknag/loan-approval-prediction/input). It includes financial and demographic data about loan applicants.
+
+### Features:
 
 - `loan_id`: Unique identifier for the loan.
 - `no_of_dependents`: Number of dependents for the applicant.
-- `education`: Applicant's education status (Graduate/Not Graduate).
-- `self_employed`: Whether the applicant is self-employed (Yes/No).
-- `income_annum`: Annual income of the applicant.
-- `loan_amount`: Amount of loan applied for.
-- `loan_term`: Duration of the loan.
-- `cibil_score`: Applicant's CIBIL score.
-- `residential_assets_value`: Value of the residential assets owned by the applicant.
-- `commercial_assets_value`: Value of the commercial assets owned by the applicant.
-- `luxury_assets_value`: Value of the luxury assets owned by the applicant.
-- `bank_asset_value`: Value of the bank assets owned by the applicant.
-- `loan_status`: Whether the loan was approved or rejected (Approved/Rejected).
+- `education`: Applicant's education level.
+- `self_employed`: Employment status (Yes/No).
+- `income_annum`: Annual income.
+- `loan_amount`: Requested loan amount.
+- `loan_term`: Duration of the loan in years.
+- `cibil_score`: Credit score.
+- `residential_assets_value`: Value of residential assets.
+- `commercial_assets_value`: Value of commercial assets.
+- `luxury_assets_value`: Value of luxury assets.
+- `bank_asset_value`: Value of bank assets.
+- `loan_status`: Loan decision (Approved/Rejected).
 
-## Steps Involved
+---
+
+## Methodology
 
 ### 1. Data Preprocessing
-- **Encoding** categorical variables using Label Encoding.
-- **Filling missing values** with the mean for numerical columns.
-- **Standardizing** numerical features for model training.
+- Encoding categorical variables using Label Encoding.
+- Handling missing values using column-wise mean.
+- Standardizing numerical features using `StandardScaler`.
 
 ### 2. Model Building
-- Trained a **Logistic Regression** model to predict loan approval (`loan_status`).
-- Evaluated the model's performance using accuracy and confusion matrix.
+- Trained a **Logistic Regression** model on the processed data.
+- Evaluated using **Accuracy** and **Confusion Matrix**.
 
 ### 3. Fairness Evaluation
-- Calculated **True Positive Rate (TPR)** for different groups (e.g., gender) to assess fairness.
-  
-### 4. Bias Mitigation Using SMOTE
-- Applied **SMOTE** to balance the dataset and mitigate class imbalance issues.
-- Retrained the model on the resampled dataset and evaluated fairness again.
+- Added a simulated **gender** column to evaluate group-based fairness.
+- Measured **True Positive Rate (TPR)** and **Selection Rate** for fairness.
 
-## Evaluation Metrics
+### 4. Bias Mitigation
+- Applied **SMOTE** to balance class distribution.
+- Re-evaluated the model post-mitigation for fairness improvements.
 
-- **Accuracy**: The proportion of correct predictions made by the model.
-- **Confusion Matrix**: A table used to describe the performance of the classification model.
-- **True Positive Rate (TPR)**: The proportion of actual positive instances correctly identified by the model.
+---
 
-## Fairness Metrics
+## Key Results
 
-The fairness of the model was evaluated using the following metrics for different groups:
+| Metric                        | Before SMOTE | After SMOTE |
+|------------------------------|--------------|-------------|
+| **Accuracy**                 | 91%          | 91%         |
+| **True Positive Rate (F)**   | 85.9%        | 91.7%       |
+| **True Positive Rate (M)**   | 86.9%        | 90.7%       |
+| **Selection Rate (F)**       | 35.8%        | 40.0%       |
+| **Selection Rate (M)**       | 37.5%        | 39.5%       |
 
-- **Selection Rate**: The rate at which a particular group is selected for loan approval.
-- **True Positive Rate (TPR)**: The rate at which the model correctly identifies loan approval for a particular group.
+The application of SMOTE helped in improving both fairness and balance in selection/approval across demographic groups.
 
-### Results Before and After SMOTE
+---
 
-| Metric                          | Female | Male  |
-|----------------------------------|--------|-------|
-| **Accuracy**                     | 90.6%  | 90.4% |
-| **True Positive Rate (Before SMOTE)** | 85.9%  | 86.9% |
-| **True Positive Rate (After SMOTE)**  | 91.7%  | 90.7% |
+## How to Run
 
-### Model Performance
-
-| Metric                         | Before SMOTE | After SMOTE |
-|---------------------------------|--------------|-------------|
-| **Accuracy**                    | 91%          | 91%         |
-| **Confusion Matrix**            | See Outputs  | See Outputs |
-
-## How to Run the Code
-
-### Prerequisites
+### Requirements
 
 - Python 3.x
 - Jupyter Notebook or Google Colab
-- The following Python libraries:
-  - pandas
-  - numpy
-  - scikit-learn
-  - imbalanced-learn (for SMOTE)
-  - matplotlib, seaborn (for visualization)
-  - fairlearn (for fairness metrics)
+- Libraries:
+  - `pandas`, `numpy`, `scikit-learn`, `imbalanced-learn`
+  - `matplotlib`, `seaborn`, `fairlearn`
 
-You can install the required libraries using `pip`:
-
+Install requirements:
 ```bash
 pip install pandas numpy scikit-learn imbalanced-learn fairlearn matplotlib seaborn
