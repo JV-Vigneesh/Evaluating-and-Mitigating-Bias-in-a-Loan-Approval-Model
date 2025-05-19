@@ -1,56 +1,90 @@
 # Evaluating and Mitigating Bias in a Loan Approval Model
 
-## Overview
-This project addresses ethical considerations in machine learning by analyzing a loan approval model for biases that could lead to unfair or discriminatory outcomes. Using a Kaggle dataset (`loan_data.csv`), we train a logistic regression model to predict loan approvals and evaluate bias with respect to `Gender`, `Married`, and `Property_Area` using fairness metrics (Disparate Impact, Equal Opportunity Difference, Average Odds Difference). We apply three mitigation techniques—reweighting, adversarial debiasing, and post-processing—to improve fairness, achieving a Disparate Impact ratio closer to 1 (e.g., from ~0.83 to ~0.95 for `Gender`). The project ensures ethical soundness through transparency (SHAP feature importance), robustness (cross-validation), and ethical discussion aligned with regulations like the Equal Credit Opportunity Act (ECOA).
+## Project Overview
+
+This project explores the use of machine learning models for loan approval decisions, with a specific focus on **evaluating and mitigating bias**. We aim to ensure that the loan approval process is fair and does not discriminate against any group based on sensitive attributes such as gender.
+
+The project applies **Logistic Regression** for loan approval predictions, evaluates the model's performance, and then applies **SMOTE (Synthetic Minority Over-sampling Technique)** to mitigate any bias in the dataset. Fairness metrics such as **True Positive Rate (TPR)** are calculated for different groups to ensure the model does not exhibit unfair bias against any specific demographic.
 
 ## Dataset
-- **Source**: Kaggle (`loan_data.csv`)
-- **Features**: `Gender`, `Married`, `Dependents`, `Education`, `Self_Employed`, `ApplicantIncome`, `CoapplicantIncome`, `LoanAmount`, `Loan_Amount_Term`, `Credit_History`, `Property_Area`, `Loan_Status` (target)
-- **Limitations**: Lacks `Race` or `Ethnicity`, limiting bias analysis scope
 
-## Setup
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/JV-Vigneesh/Evaluating-and-Mitigating-Bias-in-a-Loan-Approval-Model.git
-   ```
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Run the Jupyter notebook:
-   ```bash
-   jupyter notebook Loan_Approval_Bias_Evaluation.ipynb
-   ```
+The dataset used for this project is a **loan approval dataset** with the following columns:
 
-## Requirements
-See `requirements.txt` for dependencies, including:
-- `aif360`
-- `scikit-learn`
-- `pandas`
-- `numpy`
-- `matplotlib`
-- `seaborn`
-- `shap`
-- `tensorflow`
+- `loan_id`: Unique identifier for the loan.
+- `no_of_dependents`: Number of dependents for the applicant.
+- `education`: Applicant's education status (Graduate/Not Graduate).
+- `self_employed`: Whether the applicant is self-employed (Yes/No).
+- `income_annum`: Annual income of the applicant.
+- `loan_amount`: Amount of loan applied for.
+- `loan_term`: Duration of the loan.
+- `cibil_score`: Applicant's CIBIL score.
+- `residential_assets_value`: Value of the residential assets owned by the applicant.
+- `commercial_assets_value`: Value of the commercial assets owned by the applicant.
+- `luxury_assets_value`: Value of the luxury assets owned by the applicant.
+- `bank_asset_value`: Value of the bank assets owned by the applicant.
+- `loan_status`: Whether the loan was approved or rejected (Approved/Rejected).
 
-## Results
-- **Baseline Model**: Accuracy ~0.80, Disparate Impact ~0.83 for `Gender`
-- **Post-Mitigation**: Disparate Impact improved to ~0.95, accuracy ~0.78
-- **Fairness Metrics**: Evaluated Disparate Impact, Equal Opportunity Difference, and Average Odds Difference for `Gender`, `Married`, and `Property_Area`
-- **Mitigation**: Reweighting, adversarial debiasing, and post-processing reduced bias effectively
-- **Ethical Soundness**: Addressed via transparency (SHAP), ethical discussion, and regulatory alignment
+## Steps Involved
 
-## Limitations
-- Dataset lacks `Race` or `Ethnicity`
-- Small dataset size (~600 rows)
-- Limited to logistic regression; ensemble models could enhance performance
+### 1. Data Preprocessing
+- **Encoding** categorical variables using Label Encoding.
+- **Filling missing values** with the mean for numerical columns.
+- **Standardizing** numerical features for model training.
 
-## Future Work
-- Use richer datasets (e.g., HMDA) with `Race` and `Ethnicity`
-- Experiment with additional models (e.g., Random Forest, XGBoost)
-- Incorporate stakeholder-defined fairness thresholds
+### 2. Model Building
+- Trained a **Logistic Regression** model to predict loan approval (`loan_status`).
+- Evaluated the model's performance using accuracy and confusion matrix.
 
-## References
-- AIF360: https://aif360.mybluemix.net/
-- Equal Credit Opportunity Act: https://www.justice.gov/crt/equal-credit-opportunity-act-0
-- SHAP: https://shap.readthedocs.io/
+### 3. Fairness Evaluation
+- Calculated **True Positive Rate (TPR)** for different groups (e.g., gender) to assess fairness.
+  
+### 4. Bias Mitigation Using SMOTE
+- Applied **SMOTE** to balance the dataset and mitigate class imbalance issues.
+- Retrained the model on the resampled dataset and evaluated fairness again.
+
+## Evaluation Metrics
+
+- **Accuracy**: The proportion of correct predictions made by the model.
+- **Confusion Matrix**: A table used to describe the performance of the classification model.
+- **True Positive Rate (TPR)**: The proportion of actual positive instances correctly identified by the model.
+
+## Fairness Metrics
+
+The fairness of the model was evaluated using the following metrics for different groups:
+
+- **Selection Rate**: The rate at which a particular group is selected for loan approval.
+- **True Positive Rate (TPR)**: The rate at which the model correctly identifies loan approval for a particular group.
+
+### Results Before and After SMOTE
+
+| Metric                          | Female | Male  |
+|----------------------------------|--------|-------|
+| **Accuracy**                     | 90.6%  | 90.4% |
+| **True Positive Rate (Before SMOTE)** | 85.9%  | 86.9% |
+| **True Positive Rate (After SMOTE)**  | 91.7%  | 90.7% |
+
+### Model Performance
+
+| Metric                         | Before SMOTE | After SMOTE |
+|---------------------------------|--------------|-------------|
+| **Accuracy**                    | 91%          | 91%         |
+| **Confusion Matrix**            | See Outputs  | See Outputs |
+
+## How to Run the Code
+
+### Prerequisites
+
+- Python 3.x
+- Jupyter Notebook or Google Colab
+- The following Python libraries:
+  - pandas
+  - numpy
+  - scikit-learn
+  - imbalanced-learn (for SMOTE)
+  - matplotlib, seaborn (for visualization)
+  - fairlearn (for fairness metrics)
+
+You can install the required libraries using `pip`:
+
+```bash
+pip install pandas numpy scikit-learn imbalanced-learn fairlearn matplotlib seaborn
