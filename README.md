@@ -1,4 +1,4 @@
-# 🔍 Fairness Evaluation and Bias Mitigation in Loan Approval Prediction
+# 🔍 Evaluating and Mitigating Bias in a Loan Approval Model
 
 This project analyzes and mitigates potential biases in a machine learning model used for predicting loan approvals. It focuses on evaluating the ethical implications of automated decision-making systems and improving fairness across sensitive attributes — particularly **gender**.
 
