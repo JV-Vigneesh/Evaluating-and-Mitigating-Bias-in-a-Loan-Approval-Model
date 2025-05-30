@@ -1,80 +1,106 @@
-# Evaluating and Mitigating Bias in a Loan Approval Model
+# 🔍 Fairness Evaluation and Bias Mitigation in Loan Approval Prediction
 
-## Project Overview
-
-This project applies machine learning techniques to predict loan approval decisions, with a primary focus on **evaluating and mitigating bias**. The goal is to ensure fairness in loan approvals, particularly across different demographic groups such as gender.
-
-The project uses a **Logistic Regression** model for predictions and evaluates both model performance and fairness. It incorporates **SMOTE (Synthetic Minority Over-sampling Technique)** to address class imbalance and uses fairness metrics like **True Positive Rate (TPR)** to assess equity across groups.
+This project analyzes and mitigates potential biases in a machine learning model used for predicting loan approvals. It focuses on evaluating the ethical implications of automated decision-making systems and improving fairness across sensitive attributes — particularly **gender**.
 
 ---
 
-## Dataset
+## 🧠 Project Overview
 
-The dataset is from [Kaggle: Loan Approval Prediction](https://www.kaggle.com/code/kanuriviveknag/loan-approval-prediction/input). It includes financial and demographic data about loan applicants.
+Loan approval decisions made using machine learning models can unintentionally encode social biases, leading to unfair outcomes. This project addresses these challenges by:
 
-### Features:
-
-- `loan_id`: Unique identifier for the loan.
-- `no_of_dependents`: Number of dependents for the applicant.
-- `education`: Applicant's education level.
-- `self_employed`: Employment status (Yes/No).
-- `income_annum`: Annual income.
-- `loan_amount`: Requested loan amount.
-- `loan_term`: Duration of the loan in years.
-- `cibil_score`: Credit score.
-- `residential_assets_value`: Value of residential assets.
-- `commercial_assets_value`: Value of commercial assets.
-- `luxury_assets_value`: Value of luxury assets.
-- `bank_asset_value`: Value of bank assets.
-- `loan_status`: Loan decision (Approved/Rejected).
+- Building and evaluating a baseline model.
+- Detecting bias using fairness metrics (e.g., demographic parity, equalized odds).
+- Applying **SMOTE** to address class imbalance.
+- Reassessing fairness after mitigation.
 
 ---
 
-## Methodology
+## 📁 Dataset
 
-### 1. Data Preprocessing
-- Encoding categorical variables using Label Encoding.
-- Handling missing values using column-wise mean.
-- Standardizing numerical features using `StandardScaler`.
-
-### 2. Model Building
-- Trained a **Logistic Regression** model on the processed data.
-- Evaluated using **Accuracy** and **Confusion Matrix**.
-
-### 3. Fairness Evaluation
-- Added a simulated **gender** column to evaluate group-based fairness.
-- Measured **True Positive Rate (TPR)** and **Selection Rate** for fairness.
-
-### 4. Bias Mitigation
-- Applied **SMOTE** to balance class distribution.
-- Re-evaluated the model post-mitigation for fairness improvements.
+- **Source**: [Kaggle - Loan Prediction Dataset](https://www.kaggle.com/code/kanuriviveknag/loan-approval-prediction/input)
+- **Features** include:
+  - Demographics: `Gender`, `Married`, `Dependents`, `Education`
+  - Financials: `ApplicantIncome`, `CoapplicantIncome`, `LoanAmount`
+  - Credit info: `Credit_History`, `Loan_Amount_Term`, `Property_Area`
+- **Target**: `Loan_Status` (Approved = 1, Not Approved = 0)
 
 ---
 
-## Key Results
+## ⚙️ Technologies Used
 
-| Metric                        | Before SMOTE | After SMOTE |
-|------------------------------|--------------|-------------|
-| **Accuracy**                 | 91%          | 91%         |
-| **True Positive Rate (F)**   | 85.9%        | 91.7%       |
-| **True Positive Rate (M)**   | 86.9%        | 90.7%       |
-| **Selection Rate (F)**       | 35.8%        | 40.0%       |
-| **Selection Rate (M)**       | 37.5%        | 39.5%       |
-
-The application of SMOTE helped in improving both fairness and balance in selection/approval across demographic groups.
+- **Python 3**
+- **scikit-learn**
+- **imbalanced-learn** (for SMOTE)
+- **fairlearn** (for fairness metrics)
+- **pandas**, **seaborn**, **matplotlib** for data handling and visualization
 
 ---
 
-## How to Run
+## 🚀 Project Workflow
 
-### Requirements
+### 1. 📊 Data Preprocessing
+- Handle missing values and encode categorical features.
+- Normalize numerical features.
 
-- Python 3.x
-- Jupyter Notebook or Google Colab
-- Libraries:
-  - `pandas`, `numpy`, `scikit-learn`, `imbalanced-learn`
-  - `matplotlib`, `seaborn`, `fairlearn`
+### 2. 📈 Baseline Model (Logistic Regression)
+- Evaluate accuracy and confusion matrix.
+- Assess fairness by gender using:
+  - **Demographic Parity Difference**
+  - **Equalized Odds Difference**
+  - **True Positive Rate**
+  - **Selection Rate**
 
-Install requirements:
-```bash
-pip install pandas numpy scikit-learn imbalanced-learn fairlearn matplotlib seaborn
+### 3. 💉 Mitigation via SMOTE
+- Handle class imbalance using **Synthetic Minority Oversampling Technique**.
+- Retrain and evaluate the model post-mitigation.
+
+---
+
+## 📊 Results Summary
+
+| Metric                   | Before SMOTE | After SMOTE |
+|--------------------------|--------------|-------------|
+| **Accuracy**             | 0.79         | 0.78        |
+| **Demographic Parity Diff.** | High    | Reduced     |
+| **Equalized Odds Diff.**     | High    | Reduced     |
+
+- **Key Finding**: While accuracy slightly decreased after applying SMOTE, **fairness improved** with reduced demographic and equalized odds disparities.
+
+---
+
+## 🔎 Visualizations
+
+- Confusion matrices before and after SMOTE.
+- Feature importance from logistic regression.
+- Group-based fairness comparisons (e.g., TPR, accuracy, selection rate) before and after mitigation.
+
+---
+
+## ✅ Key Takeaways
+
+- Machine learning models can show unfair outcomes even with high accuracy.
+- Fairness evaluation should be **explicit**, not assumed.
+- SMOTE helped address class imbalance and indirectly improved fairness.
+- Using tools like **Fairlearn** is essential for building ethical ML models.
+
+---
+
+## 🚧 Limitations & Future Work
+
+- Explore **fairness-specific models** like `ExponentiatedGradient` or `GridSearch` from Fairlearn.
+- Evaluate additional sensitive attributes (e.g., marital status, education).
+- Combine multiple bias mitigation strategies (e.g., reweighting, adversarial debiasing).
+- Develop a **Streamlit dashboard** for real-time fairness visualization.
+
+---
+
+## 🧑‍💻 Author
+
+**JV Vigneesh**  
+M.Tech - Applied Machine Learning  
+
+---
+
+## 📜 License
+
+This project is licensed under the [MIT License](LICENSE).
